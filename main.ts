@@ -432,6 +432,23 @@ function drawPage(): void {
 }
 
 // ---------------------------------------------------------------- main
+// Guard: all 35 headlines must be present and non-empty, or a blank story
+// would ship silently. Lead + second-row headlines are literals in
+// drawPage; the grid (24) and ALSO strip (8) are data.
+const LEAD_HEADS = ["HUANG IS BACK", "CLIMATE TALKS COLLAPSE", "FACTORY FIRE: 24 DEAD"];
+const DECK_LINES = [
+  "NVIDIA REINSTATES ITS CEO",
+  "BOARD REVERSES COURSE AS SHARES SOAR",
+  "COP31 ENDS WITH NO DEAL",
+  "24 DEAD IN JAVA CANDY PLANT",
+];
+const ALL_HEADS = [...LEAD_HEADS, ...GRID.map((s) => s.head), ...ALSO];
+const ALL_TEXT = [...ALL_HEADS, ...DECK_LINES];
+if (ALL_HEADS.length !== 35) throw new Error(`expected 35 headlines, got ${ALL_HEADS.length}`);
+for (const h of ALL_TEXT) {
+  if (h.trim() === "") throw new Error("empty headline");
+}
+
 const outDir = process.argv[2] ?? ".";
 drawPage();
 mkdirSync(outDir, { recursive: true });
