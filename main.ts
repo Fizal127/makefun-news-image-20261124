@@ -449,7 +449,7 @@ for (const h of ALL_TEXT) {
   if (h.trim() === "") throw new Error("empty headline");
 }
 
-const outDir = process.argv[2] ?? ".";
+const outDir = process.env.MAKEFUN_OUTPUT_DIR || process.argv[2] || ".";
 drawPage();
 mkdirSync(outDir, { recursive: true });
 writeFileSync(join(outDir, "entry.png"), encodePNG(px, W, H));
